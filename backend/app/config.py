@@ -11,7 +11,7 @@ class Config(BaseSettings):
 	@computed_field
 	@property
 	def ALLOWED_ORIGINS(self) -> list[str]:
-		if not len(self.ALLOWED_ORIGINS_RAW):
+		if not self.ALLOWED_ORIGINS_RAW:
 			return []
 
 		return [origin.strip() for origin in self.ALLOWED_ORIGINS_RAW.split(",")]
