@@ -22,12 +22,12 @@
 	</header>
 
 	<div class="grid gap-8 sm:grid-cols-1">
-		{#each data.posts as post, i (post.id)}
+		{#each data.data as post, i (post.id)}
 			<article
 				in:fly={{ y: 20, duration: 400, delay: i * 100 }}
 				class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300
-                       hover:-translate-y-1 hover:border-blue-200/50 hover:shadow-xl
-                       dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-900/50"
+				hover:-translate-y-1 hover:border-blue-200/50 hover:shadow-xl
+				dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-900/50"
 			>
 				<div
 					class="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-blue-500/10 opacity-0 blur-3xl transition-opacity group-hover:opacity-100 dark:bg-blue-400/10"
@@ -86,7 +86,7 @@
 		{/each}
 	</div>
 
-	{#if data.posts.length === 0}
+	{#if data.data.length === 0}
 		<div
 			in:fade
 			class="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-12 text-center dark:border-slate-700 dark:bg-slate-800/50"
@@ -101,7 +101,9 @@
 					/>
 				</svg>
 			</div>
+
 			<h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">暫無文章</h3>
+
 			<p class="mt-2 text-slate-500 dark:text-slate-400">
 				目前還沒有發布任何內容，請稍後再回來查看。
 			</p>
