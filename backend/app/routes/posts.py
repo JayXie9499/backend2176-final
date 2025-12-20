@@ -11,7 +11,9 @@ async def get_posts(page: int = 0, db: Session = Depends(get_db)):
 	posts = (
 		db.query(Post, User.name)
 		.join(User, Post.owner_id == User.id)
-		.where(Post.id.between(1 + 10 * page, 10 + 10 * page))
+		.order_by(Post.created_at.desc())
+		.limit(10)
+		.offset(page * 10)
 		.all()
 	)
 
