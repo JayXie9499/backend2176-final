@@ -18,7 +18,7 @@ async function send<T>(
 	endpoint: string,
 	data?: object
 ): Promise<{ message: string; data: T }> {
-	const options: RequestInit = { method };
+	const options: RequestInit = { method, credentials: 'include' };
 
 	if (data) {
 		options.headers = { 'Content-Type': 'application/json' };
