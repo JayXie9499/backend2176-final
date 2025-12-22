@@ -28,10 +28,15 @@
 		}
 
 		isLoading = true;
-		await api.posts.create({ title, content, owner_id: userState.current!.id });
-		isLoading = false;
-		isNavigating = true;
-		goto('/');
+		try {
+			await api.posts.create({ title, content, owner_id: userState.current!.id });
+			isNavigating = true;
+			await goto('/');
+		} catch (err) {
+			console.error(err);
+		} finally {
+			isLoading = false;
+		}
 	}
 
 	$: readTime = Math.ceil(content.length / 300);
