@@ -1,4 +1,4 @@
-import type { User } from './api';
+import { api, type User } from './api';
 
 type ConditionalOrNull<B extends boolean, T> = B extends true ? T : null;
 
@@ -20,11 +20,12 @@ export class UserState<LoggedIn extends boolean = boolean> {
 		this.current = user as ConditionalOrNull<true, User> & null;
 	}
 
-	public logout() {
+	public async logout() {
 		if (!this.isLoggedIn()) {
 			return;
 		}
 
+		await api.auth.logout();
 		this.loggedIn = false as LoggedIn & true;
 		this.current = null as ConditionalOrNull<false, User> & User;
 	}

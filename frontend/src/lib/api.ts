@@ -38,7 +38,9 @@ export const api = {
 	auth: {
 		register: (data: { username: string; password: string }) =>
 			send<void>('POST', '/auth/register', data),
-		login: (data: { username: string; password: string }) => send<User>('POST', '/auth/login', data)
+		login: (data: { username: string; password: string }) =>
+			send<User>('POST', '/auth/login', data),
+		logout: () => send<void>('POST', '/auth/logout')
 	},
 	user: {
 		me: () => send<User>('GET', '/user/me')
