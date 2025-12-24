@@ -26,3 +26,18 @@ async def read_current_user(
 		print(e)
 		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 		return {"message": "An error occurred while fetching user data"}
+
+
+@router.get("/{id}")
+async def read_user_by_id(id: int, response: Response, db: Session = Depends(get_db)):
+	try:
+		user = db.query(User).filter(User.id == id).first()
+		if not user:
+			response.status_code = status.HTTP_404_NOT_FOUND
+			return {"message": "User not found"}
+
+		return {"message": "Successfully fetched user data", "data": user}
+	except SQLAlchemyError as e:
+		print(e)
+		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+		return {"message": "An error occurred while fetching user data"}
