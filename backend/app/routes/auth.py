@@ -1,9 +1,11 @@
+from typing import Any
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 from ..schemas import UserCreate
 from ..database import get_db
 from ..models import User
 from ..security import hash_password
+from ..dependencies import auth_dependency
 
 router = APIRouter()
 
@@ -25,3 +27,9 @@ async def user_register(
 	db.commit()
 
 	return {"message": "Successfully registered"}
+
+
+@router.post("/logout")
+async def user_logout(response: Response, _: dict[str, Any] = Depends(auth_dependency)):
+	response.delete_cookie(key="jwt_token")
+	return {"message": "Successfully logged out"}
