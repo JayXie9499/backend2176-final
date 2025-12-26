@@ -183,8 +183,8 @@
 							id="password"
 							bind:value={password}
 							required
-							minlength="8"
-							placeholder="至少 8 個字元"
+							minlength="4"
+							placeholder="至少 4 個字元"
 							class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 pr-12 text-slate-900 placeholder-slate-400 transition-all focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:ring-blue-500/20"
 						/>
 
