@@ -16,7 +16,9 @@ async def read_current_user(
 	db: Session = Depends(get_db),
 ):
 	try:
-		user = db.query(User).filter(User.id == jwt_payload["sub"]).first()
+		user = (
+			db.query(User.id, User.name).filter(User.id == jwt_payload["sub"]).first()
+		)
 		if not user:
 			response.status_code = status.HTTP_404_NOT_FOUND
 			return {"message": "User not found"}
@@ -47,7 +49,7 @@ async def read_current_user_posts(
 @router.get("/{id}")
 async def read_user_by_id(id: int, response: Response, db: Session = Depends(get_db)):
 	try:
-		user = db.query(User).filter(User.id == id).first()
+		user = db.query(User.id, User.name).filter(User.id == id).first()
 		if not user:
 			response.status_code = status.HTTP_404_NOT_FOUND
 			return {"message": "User not found"}
