@@ -18,7 +18,7 @@ async def read_current_user(
 	try:
 		user = (
 			db.query(User.id, User.username)
-			.filter(User.id == jwt_payload["sub"])
+			.filter(User.id == int(jwt_payload["sub"]))
 			.first()
 		)
 		if not user:
