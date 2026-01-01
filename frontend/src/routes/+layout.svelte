@@ -1,12 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { resolve } from '$app/paths';
+	import { api } from '$lib/api';
 	import { UserState, USER_KEY } from '$lib/user.svelte';
 
-	let { data, children } = $props();
-	const userState = new UserState(data.data);
+	let { children } = $props();
+	const userState = new UserState();
 
 	setContext(USER_KEY, userState);
 
@@ -17,6 +18,14 @@
 			console.error(err);
 		}
 	}
+
+	onMount(async () => {
+		try {
+			const res = await api.user.me();
+
+			userState.update(res.data);
+		} catch (_err) {}
+	});
 </script>
 
 <div class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900 selection:bg-blue-500/20 dark:bg-slate-950 dark:text-slate-100">
