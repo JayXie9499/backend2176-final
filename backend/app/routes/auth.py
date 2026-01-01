@@ -25,7 +25,7 @@ async def user_login(
 		return {"message": "Invalid username or password"}
 
 	token_exp = datetime.now(timezone.utc) + timedelta(hours=1)
-	jwt_claims = {"sub": user.id, "exp": token_exp}
+	jwt_claims = {"sub": str(user.id), "exp": token_exp}
 	token = generate_jwt_token(jwt_claims)
 	if not token:
 		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
