@@ -18,7 +18,7 @@ async def user_login(
 	data_dict = data.model_dump()
 	username = data_dict["username"]
 	password = data_dict["password"]
-	user = db.query(User).where(User.name == username).first()
+	user = db.query(User).where(User.username == username).first()
 	correct_password = verify_password(password, user.hashed_pwd) if user else False  # type: ignore
 	if not user or not correct_password:
 		response.status_code = status.HTTP_401_UNAUTHORIZED
@@ -44,13 +44,13 @@ async def user_register(
 	data_dict = data.model_dump()
 	username = data_dict["username"]
 	password = data_dict["password"]
-	existing_user = db.query(User).where(User.name == username).first()
+	existing_user = db.query(User).where(User.username == username).first()
 	if existing_user:
 		response.status_code = status.HTTP_400_BAD_REQUEST
 		return {"message": "Username already taken"}
 
 	hashed_pwd = hash_password(password)
-	db.add(User(name=username, hashed_pwd=hashed_pwd))
+	db.add(User(username=username, hashed_pwd=hashed_pwd))
 	db.commit()
 
 	return {"message": "Successfully registered"}

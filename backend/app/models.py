@@ -8,7 +8,7 @@ class User(Base):
 	__tablename__ = "users"
 
 	id = Column(Integer, primary_key=True, index=True)
-	name = Column(String(30), unique=True, nullable=False)
+	username = Column(String(30), unique=True, nullable=False)
 	hashed_pwd = Column(Text, nullable=False)
 	posts = relationship("Post", back_populates="owner")
 

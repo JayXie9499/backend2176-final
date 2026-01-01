@@ -14,7 +14,7 @@ router = APIRouter()
 async def get_posts(response: Response, page: int = 0, db: Session = Depends(get_db)):
 	try:
 		posts = (
-			db.query(Post, User.name)
+			db.query(Post, User.username)
 			.join(User, Post.owner_id == User.id)
 			.order_by(Post.created_at.desc())
 			.limit(10)
