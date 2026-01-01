@@ -14,7 +14,7 @@ router = APIRouter()
 async def get_posts(response: Response, page: int = 0, db: Session = Depends(get_db)):
 	try:
 		posts = (
-			db.query(Post, User.username)
+			db.query(Post.id, Post.title, Post.created_at, User.username)
 			.join(User, Post.owner_id == User.id)
 			.order_by(Post.created_at.desc())
 			.limit(10)
@@ -22,11 +22,46 @@ async def get_posts(response: Response, page: int = 0, db: Session = Depends(get
 			.all()
 		)
 
-		return {"message": "Successfully fetched posts data", "data": posts}
+		return {
+			"message": "Successfully fetched posts data",
+			"data": [
+				{
+					"id": id,
+					"title": title,
+					"created_at": created_at,
+					"username": username,
+				}
+				for id, title, created_at, username in posts
+			],
+		}
 	except SQLAlchemyError as e:
 		print(e)
 		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 		return {"message": "An error occurred while fetching posts data"}
+
+
+@router.get("/{id}")
+async def get_post(id: int, response: Response, db: Session = Depends(get_db)):
+	try:
+		post = (
+			db.query(Post, User.username)
+			.filter(Post.id == id)
+			.join(User, Post.owner_id == User.id)
+			.first()
+		)
+		if not post:
+			response.status_code = status.HTTP_404_NOT_FOUND
+			return {"message": "Post not found"}
+
+		post_data, username = post
+		return {
+			"message": "Successfully fetched post data",
+			"data": {**post_data.__dict__, "username": username},
+		}
+	except SQLAlchemyError as e:
+		print(e)
+		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+		return {"message": "An error occurred while fetching the post data"}
 
 
 @router.post("/")
