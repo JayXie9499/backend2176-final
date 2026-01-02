@@ -1,0 +1,14 @@
+.vscode/
+.git/
+.venv/
+__pycache__/
+
+Dockerfile
+.dockerignore
+.gitignore
+.python-version
+.env
+.env.*
+uv.lock
+README.md
+*.sqlite*

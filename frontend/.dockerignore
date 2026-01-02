@@ -1,0 +1,15 @@
+.vscode/
+.git/
+.svelte-kit/
+node_modules/
+build/
+
+Dockerfile
+.dockerignore
+.gitignore
+.prettierrc
+.prettierignore
+.env
+.env.*
+eslint.config.js
+README.md
